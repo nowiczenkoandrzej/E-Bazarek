@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "530984479641",
+    "project_id": "e-bazarek-1bb84",
+    "storage_bucket": "e-bazarek-1bb84.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:530984479641:android:f6c1d2fc2ebd7814e0c108",
+        "android_client_info": {
+          "package_name": "com.an.e_bazarek"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "530984479641-9ikhmm7tii7b47p25k2ooebojgi4eiq6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAE-Pk6xWxH48c0PlKZsJY_0JSyIRBKvq4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "530984479641-9ikhmm7tii7b47p25k2ooebojgi4eiq6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
