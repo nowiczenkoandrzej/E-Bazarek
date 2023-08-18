@@ -23,7 +23,7 @@ jobs:
         run: ./gradlew :app:test
 
       - name: Run Login Tests
-        run: ./gradlew :login_feature:test
+        run: ./gradlew :login_feature:test --project-dir /github/workspace
 
       - name: Build Project
         run: ./gradlew :app:build
