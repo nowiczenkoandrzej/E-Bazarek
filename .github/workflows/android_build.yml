@@ -15,8 +15,11 @@ jobs:
         with:
           java-version: 1.8
 
-      - name: Run Tests
-        run: ./gradlew test
+      - name: Run Login Tests
+        run: ./gradlew :login_feature:test
+
+      - name: Run App Tests
+        run: ./gradlew :app:test
 
       - name: Build Project
         run: ./gradlew assemble
