@@ -17,7 +17,6 @@ class LoginViewModel @Inject constructor(
     val screenState = _screenState.asStateFlow()
 
 
-
     fun onEvent(event: LoginScreenEvent) {
         when(event) {
             is LoginScreenEvent.TypeEmail -> {
