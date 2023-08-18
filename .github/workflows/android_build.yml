@@ -19,11 +19,11 @@ jobs:
           distribution: 'adopt'
           java-version: 11
 
+      - name: Run Login Tests
+        run: ./gradlew :app:feature_login:test
+
       - name: Run App Tests
         run: ./gradlew :app:test
-
-      - name: Run Login Tests
-        run: ./gradlew :login_feature:test --project-dir /github/workspace
 
       - name: Build Project
         run: ./gradlew :app:build
