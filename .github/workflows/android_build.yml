@@ -19,6 +19,9 @@ jobs:
           distribution: 'adopt'
           java-version: 11
 
+      - name: Run Login Tests
+        run: ./gradlew :login_feature:test
+
       - name: Run App Tests
         run: ./gradlew :app:test
 
