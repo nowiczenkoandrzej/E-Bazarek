@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 
 import androidx.navigation.NavController
 import com.an.e_bazarek.feature_login.domain.model.LoginEvent
+import com.an.e_bazarek.feature_login.domain.model.RegisterEvent
 
 
 @Composable
@@ -41,84 +42,110 @@ fun LoginScreen(
 
     val focusRequester = remember { FocusRequester() }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Spacer(modifier = Modifier.height(48.dp))
-        Text(
-            text = "Login",
-            fontSize = 48.sp,
-            fontFamily = FontFamily.SansSerif
-        )
-        Spacer(modifier = Modifier.height(48.dp))
-        OutlinedTextField(
-            value = state.email,
-            onValueChange = { viewModel.onEvent(LoginEvent.TypeEmail(it)) },
-            label = { Text(text = "E-mail") },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Outlined.Email,
-                    contentDescription = null
-                )
-            },
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Email,
-                imeAction = ImeAction.Next
-            ),
-            keyboardActions = KeyboardActions(
-                onNext = { focusRequester.requestFocus() }
+    if(state.isLoading) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center)
             )
-        )
-
-        OutlinedTextField(
-            value = state.password,
-            onValueChange = { viewModel.onEvent(LoginEvent.TypePassword(it)) },
-            label = { Text(text = "Password") },
-            leadingIcon = { Icon(
-                imageVector = Icons.Outlined.Lock,
-                contentDescription = null
-            ) },
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Password,
-                imeAction = ImeAction.Go
-            ),
-            keyboardActions = KeyboardActions(
-                onGo = { viewModel.onEvent(LoginEvent.SingIn) }
-            ),
-            modifier = Modifier.focusRequester(focusRequester)
-
-        )
-        TextButton(
-            modifier = Modifier
-                .align(Alignment.End)
-                .padding(end = 32.dp),
-            onClick = { /*TODO*/ }
-        ) {
-            Text(text = "Forgot password?",)
         }
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(
+    } else {
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    start = 32.dp,
-                    end = 32.dp
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.height(48.dp))
+            Text(
+                text = "Login",
+                fontSize = 48.sp,
+                fontFamily = FontFamily.SansSerif
+            )
+            Spacer(modifier = Modifier.height(48.dp))
+            OutlinedTextField(
+                value = state.email,
+                onValueChange = { viewModel.onEvent(LoginEvent.TypeEmail(it)) },
+                placeholder = { Text(text = "E-mail") },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Outlined.Email,
+                        contentDescription = null
+                    )
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Next
                 ),
-            onClick = { viewModel.onEvent(LoginEvent.SingIn) }
-        ) {
-            Text(text = "Login")
-        }
+                keyboardActions = KeyboardActions(
+                    onNext = { focusRequester.requestFocus() }
+                )
+            )
+            Spacer(modifier = Modifier.height(8.dp))
 
-        Spacer(modifier = Modifier.height(16.dp))
-        
-        if(state.error != null) {
-            Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
-            viewModel.onEvent(LoginEvent.DisplayError)
-        }
+            OutlinedTextField(
+                value = state.password,
+                onValueChange = { viewModel.onEvent(LoginEvent.TypePassword(it)) },
+                placeholder = { Text(text = "Password") },
+                leadingIcon = { Icon(
+                    imageVector = Icons.Outlined.Lock,
+                    contentDescription = null
+                ) },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Go
+                ),
+                keyboardActions = KeyboardActions(
+                    onGo = { viewModel.onEvent(LoginEvent.SingIn) }
+                ),
+                modifier = Modifier.focusRequester(focusRequester)
 
+            )
+            TextButton(
+                modifier = Modifier
+                    .align(Alignment.End)
+                    .padding(end = 32.dp),
+                onClick = { /*TODO*/ }
+            ) {
+                Text(text = "Forgot password?",)
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = 32.dp,
+                        end = 32.dp
+                    ),
+                onClick = { viewModel.onEvent(LoginEvent.SingIn) }
+            ) {
+                Text(text = "Login")
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(text = "or")
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            OutlinedButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = 32.dp,
+                        end = 32.dp
+                    ),
+                onClick = { navController.navigate("register") }
+            ) {
+                Text(text = "Sign up")
+            }
+
+            if(state.error != null) {
+                Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
+                viewModel.onEvent(LoginEvent.DisplayError)
+            }
+
+        }
     }
+
 }

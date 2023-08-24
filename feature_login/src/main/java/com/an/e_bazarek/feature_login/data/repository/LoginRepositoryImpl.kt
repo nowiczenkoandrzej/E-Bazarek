@@ -1,7 +1,7 @@
 package com.an.e_bazarek.feature_login.data.repository
 
-import android.util.Log
 import com.an.e_bazarek.feature_login.domain.model.LoginState
+import com.an.e_bazarek.feature_login.domain.model.RegisterState
 import com.an.e_bazarek.feature_login.domain.repository.LoginRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -12,8 +12,6 @@ import javax.inject.Inject
 class LoginRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth
 ) : LoginRepository {
-
-    private val currentUser = auth.currentUser
 
     override suspend fun signIn(
         email: String,
@@ -38,19 +36,27 @@ class LoginRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun logOut() {
-        if(currentUser != null)
-            auth.signOut()
-    }
-
     override suspend fun signUp(
         email: String,
         password: String
-    ) {
-        auth.createUserWithEmailAndPassword(
-            email,
-            password
-        )
+    ) = flow {
+        emit(RegisterState(isLoading = true))
+        try {
+            val result =auth.createUserWithEmailAndPassword(
+                email,
+                password
+            ).await()
+            if(result.user != null) {
+                emit(RegisterState(isAccountCreated = true))
+            } else {
+                emit(RegisterState(error = "Something went wrong"))
+            }
+        } catch (e: Exception) {
+            emit(RegisterState(error = e.message))
+        }
+
+        // TODO: sprawdzic czy hasla sa takie same
+
     }
 
 }

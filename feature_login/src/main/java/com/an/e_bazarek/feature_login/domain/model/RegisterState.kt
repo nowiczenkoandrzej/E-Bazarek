@@ -5,5 +5,6 @@ data class RegisterState(
     val password: String = "",
     val repeatedPassword: String = "",
     val isLoading: Boolean = false,
+    val isAccountCreated: Boolean = false,
     val error: String? = null
 )

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.an.e_bazarek.feature_login.domain.model.LoginEvent
 import com.an.e_bazarek.feature_login.domain.model.LoginState
+import com.an.e_bazarek.feature_login.domain.model.RegisterEvent
 import com.an.e_bazarek.feature_login.domain.repository.LoginRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -48,6 +49,7 @@ class LoginViewModel @Inject constructor(
                     error = null
                 )
             }
+
         }
     }
 

@@ -17,6 +17,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.an.e_bazarek.feature_login.presentation.LoginScreen
 import com.an.e_bazarek.feature_login.presentation.LoginViewModel
+import com.an.e_bazarek.feature_login.presentation.RegisterScreen
+import com.an.e_bazarek.feature_login.presentation.RegisterViewModel
 import com.an.e_bazarek.ui.theme.E_BazarekTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,11 +33,18 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navController,
-                    startDestination = "login"
+                    startDestination = Screen.Login.route
                 ) {
-                    composable("login") {
+                    composable(Screen.Login.route) {
                         val viewModel = hiltViewModel<LoginViewModel>()
                         LoginScreen(
+                            navController = navController,
+                            viewModel = viewModel
+                        )
+                    }
+                    composable(Screen.Register.route) {
+                        val viewModel = hiltViewModel<RegisterViewModel>()
+                        RegisterScreen(
                             navController = navController,
                             viewModel = viewModel
                         )
