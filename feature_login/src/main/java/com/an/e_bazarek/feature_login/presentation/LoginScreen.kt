@@ -8,24 +8,26 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 import androidx.navigation.NavController
+import com.an.e_bazarek.feature_login.R
 import com.an.e_bazarek.feature_login.domain.model.LoginEvent
 import com.an.e_bazarek.feature_login.domain.model.RegisterEvent
 
@@ -37,6 +39,8 @@ fun LoginScreen(
 ) {
 
     val state by viewModel.screenState.collectAsState()
+
+    var passwordVisibility by rememberSaveable { mutableStateOf(false) }
 
     val context = LocalContext.current
 
@@ -90,6 +94,21 @@ fun LoginScreen(
                     imageVector = Icons.Outlined.Lock,
                     contentDescription = null
                 ) },
+                visualTransformation = if(passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
+                trailingIcon = {
+
+                    IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
+                        val image = if(passwordVisibility) {
+                            painterResource(id = R.drawable.baseline_visibility_24)
+                        } else {
+                            painterResource(id = R.drawable.baseline_visibility_off_24)
+                        }
+                        Icon(
+                            painter = image,
+                            contentDescription = null
+                        )
+                    }
+                },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Go
