@@ -1,6 +1,9 @@
 package com.an.e_bazarek.feature_login.presentation
 
 import android.widget.Toast
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.IntentSenderRequest
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -10,7 +13,6 @@ import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -22,20 +24,19 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
 import androidx.navigation.NavController
 import com.an.e_bazarek.feature_login.R
 import com.an.e_bazarek.feature_login.domain.model.LoginEvent
-import com.an.e_bazarek.feature_login.domain.model.RegisterEvent
 
 
 @Composable
 fun LoginScreen(
     navController: NavController,
     viewModel: LoginViewModel,
+    launcher: ManagedActivityResultLauncher<IntentSenderRequest, ActivityResult>,
+    onSignInWithGoogle: (Boolean) -> Unit
 ) {
 
     val state by viewModel.screenState.collectAsState()
@@ -45,6 +46,31 @@ fun LoginScreen(
     val context = LocalContext.current
 
     val focusRequester = remember { FocusRequester() }
+
+
+    LaunchedEffect(key1 = state.error) {
+        state.error?.let { error ->
+            Toast.makeText(
+                context,
+                error,
+                Toast.LENGTH_LONG
+            ).show()
+            viewModel.onEvent(LoginEvent.DisplayError)
+
+        }
+    }
+
+    LaunchedEffect(key1 = state.isLoggedIn) {
+        state.error?.let { error ->
+            Toast.makeText(
+                context,
+                error,
+                Toast.LENGTH_LONG
+            ).show()
+            viewModel.onEvent(LoginEvent.DisplayError)
+
+        }
+    }
 
     if(state.isLoading) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -159,10 +185,6 @@ fun LoginScreen(
                 Text(text = "Sign up")
             }
 
-            if(state.error != null) {
-                Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
-                viewModel.onEvent(LoginEvent.DisplayError)
-            }
 
         }
     }

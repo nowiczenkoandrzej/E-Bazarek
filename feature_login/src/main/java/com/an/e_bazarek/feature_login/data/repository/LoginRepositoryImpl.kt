@@ -1,7 +1,10 @@
 package com.an.e_bazarek.feature_login.data.repository
 
+import android.content.Intent
+import com.an.e_bazarek.feature_login.data.google_auth_client.GoogleAuthUIClient
 import com.an.e_bazarek.feature_login.domain.model.LoginState
 import com.an.e_bazarek.feature_login.domain.model.RegisterState
+import com.an.e_bazarek.feature_login.domain.model.SignInResult
 import com.an.e_bazarek.feature_login.domain.repository.LoginRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -10,7 +13,8 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class LoginRepositoryImpl @Inject constructor(
-    private val auth: FirebaseAuth
+    private val auth: FirebaseAuth,
+    private val googleAuthUIClient: GoogleAuthUIClient
 ) : LoginRepository {
 
     override suspend fun signIn(
@@ -56,6 +60,12 @@ class LoginRepositoryImpl @Inject constructor(
         }
 
         // TODO: sprawdzic czy hasla sa takie same
+
+    }
+
+    override suspend fun singInWithGoogle(intent: Intent): SignInResult {
+        googleAuthUIClient.signInWithIntent(intent)
+        return SignInResult(null, null)
 
     }
 

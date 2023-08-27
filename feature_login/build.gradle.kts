@@ -56,6 +56,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling:1.2.0")
     debugImplementation("androidx.compose.ui:ui-test-manifest:1.2.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.0")
 
 
     // Hilt
@@ -65,8 +66,13 @@ dependencies {
     // Firebase Authentication
     implementation("com.google.firebase:firebase-auth:22.1.1")
 
+    // Gms Play Services
+    implementation("com.google.android.gms:play-services-auth:20.4.1")
+
     // Compose Navigation
     implementation("androidx.navigation:navigation-compose:2.6.0")
+
+
 }
 
 kapt {
