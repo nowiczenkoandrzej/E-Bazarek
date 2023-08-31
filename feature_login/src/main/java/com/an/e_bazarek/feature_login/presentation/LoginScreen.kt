@@ -35,8 +35,6 @@ import com.an.e_bazarek.feature_login.domain.model.LoginEvent
 fun LoginScreen(
     navController: NavController,
     viewModel: LoginViewModel,
-    launcher: ManagedActivityResultLauncher<IntentSenderRequest, ActivityResult>,
-    onSignInWithGoogle: (Boolean) -> Unit
 ) {
 
     val state by viewModel.screenState.collectAsState()

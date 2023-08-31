@@ -1,28 +1,33 @@
 package com.an.e_bazarek
 
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.outlined.Email
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.List
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import com.an.e_bazarek.feature_login.data.google_auth_client.GoogleAuthUIClient
 import com.an.e_bazarek.feature_login.presentation.LoginScreen
 import com.an.e_bazarek.feature_login.presentation.LoginViewModel
 import com.an.e_bazarek.feature_login.presentation.RegisterScreen
 import com.an.e_bazarek.feature_login.presentation.RegisterViewModel
 import com.an.e_bazarek.ui.theme.E_BazarekTheme
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,42 +36,57 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             E_BazarekTheme {
-
                 val navController = rememberNavController()
+
+                val currentUser = FirebaseAuth.getInstance().currentUser
+                val startDestination = remember {
+                    if(currentUser == null) {
+                        Screen.AuthFeature.route
+                    } else {
+                        Screen.BazarekFeature.route
+                    }
+                }
+
+                var selectedItemIndex by rememberSaveable {
+                    mutableStateOf(0)
+                }
+
+
 
                 NavHost(
                     navController = navController,
-                    startDestination = Screen.Login.route
+                    startDestination = startDestination
                 ) {
-                    composable(Screen.Login.route) {
-                        val viewModel = hiltViewModel<LoginViewModel>()
 
-                        val launcher = rememberLauncherForActivityResult(
-                            contract = ActivityResultContracts.StartIntentSenderForResult(),
-                            onResult = { result ->
-                                if(result.resultCode == RESULT_OK) {
+                    navigation(
+                        startDestination = Screen.Login.route,
+                        route = Screen.AuthFeature.route
+                    ) {
+                        composable(Screen.Login.route) {
+                            val viewModel = hiltViewModel<LoginViewModel>()
 
-                                }
-                            }
-                        )
-
-                        LoginScreen(
-                            navController = navController,
-                            viewModel = viewModel,
-                            launcher = launcher,
-                            onSignInWithGoogle = {
-
-                            }
-                        )
+                            LoginScreen(
+                                navController = navController,
+                                viewModel = viewModel,
+                            )
+                        }
+                        composable(Screen.Register.route) {
+                            val viewModel = hiltViewModel<RegisterViewModel>()
+                            RegisterScreen(
+                                navController = navController,
+                                viewModel = viewModel
+                            )
+                        }
                     }
-                    composable(Screen.Register.route) {
-                        val viewModel = hiltViewModel<RegisterViewModel>()
-                        RegisterScreen(
-                            navController = navController,
-                            viewModel = viewModel
-                        )
+                    navigation(
+                        startDestination = Screen.Profile.route,
+                        route = Screen.BazarekFeature.route
+                    ) {
+                        
                     }
+
                 }
+
 
             }
         }
