@@ -1,4 +1,4 @@
-package com.an.e_bazarek
+package com.an.e_bazarek.model
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

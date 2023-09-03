@@ -13,6 +13,8 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.List
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
+import com.an.e_bazarek.model.BottomNavigationItem
+import com.an.e_bazarek.model.Screen
 
 @Composable
 fun BottomNavBar(

@@ -7,6 +7,7 @@ import com.an.e_bazarek.feature_login.domain.repository.LoginRepository
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -24,6 +25,10 @@ object LoginModule {
     @Provides
     @Singleton
     fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
+
+    @Provides
+    @Singleton
+    fun provideFirestore(): FirebaseFirestore = FirebaseFirestore.getInstance()
 
     @Provides
     @Singleton

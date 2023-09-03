@@ -4,14 +4,6 @@ package com.an.e_bazarek
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.List
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
@@ -26,6 +18,7 @@ import com.an.e_bazarek.feature_login.presentation.LoginScreen
 import com.an.e_bazarek.feature_login.presentation.LoginViewModel
 import com.an.e_bazarek.feature_login.presentation.RegisterScreen
 import com.an.e_bazarek.feature_login.presentation.RegisterViewModel
+import com.an.e_bazarek.model.Screen
 import com.an.e_bazarek.ui.theme.E_BazarekTheme
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -68,13 +61,15 @@ class MainActivity : ComponentActivity() {
                             LoginScreen(
                                 navController = navController,
                                 viewModel = viewModel,
+                                signIn =  { navController.navigate(Screen.BazarekFeature.route) }
                             )
                         }
                         composable(Screen.Register.route) {
                             val viewModel = hiltViewModel<RegisterViewModel>()
                             RegisterScreen(
                                 navController = navController,
-                                viewModel = viewModel
+                                viewModel = viewModel,
+                                signIn =  { navController.navigate(Screen.BazarekFeature.route) }
                             )
                         }
                     }
@@ -82,7 +77,9 @@ class MainActivity : ComponentActivity() {
                         startDestination = Screen.Profile.route,
                         route = Screen.BazarekFeature.route
                     ) {
-                        
+                        composable(Screen.Profile.route) {
+
+                        }
                     }
 
                 }

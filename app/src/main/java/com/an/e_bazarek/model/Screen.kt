@@ -1,4 +1,4 @@
-package com.an.e_bazarek
+package com.an.e_bazarek.model
 
 sealed class Screen(val route: String) {
     object AuthFeature: Screen(route = "auth_feature")

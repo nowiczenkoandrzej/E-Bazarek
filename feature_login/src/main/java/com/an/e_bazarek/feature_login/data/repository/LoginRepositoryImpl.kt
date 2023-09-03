@@ -6,13 +6,16 @@ import com.an.e_bazarek.feature_login.domain.model.LoginState
 import com.an.e_bazarek.feature_login.domain.model.RegisterState
 import com.an.e_bazarek.feature_login.domain.model.SignInResult
 import com.an.e_bazarek.feature_login.domain.repository.LoginRepository
+import com.an.e_bazarek.shared_resources.domain.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class LoginRepositoryImpl @Inject constructor(
+    private val db: FirebaseFirestore,
     private val auth: FirebaseAuth,
     private val googleAuthUIClient: GoogleAuthUIClient
 ) : LoginRepository {
@@ -50,7 +53,13 @@ class LoginRepositoryImpl @Inject constructor(
                 email,
                 password
             ).await()
+
             if(result.user != null) {
+                db.collection("users")
+                    .add(User(
+                        userID = result.user!!.uid,
+                        email = email
+                    )).await()
                 emit(RegisterState(isAccountCreated = true))
             } else {
                 emit(RegisterState(error = "Something went wrong"))

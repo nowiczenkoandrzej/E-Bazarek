@@ -16,3 +16,4 @@ rootProject.name = "E_Bazarek"
 include ':app'
 include ':feature_login'
 include ':feature_profile'
+include ':shared_resources'

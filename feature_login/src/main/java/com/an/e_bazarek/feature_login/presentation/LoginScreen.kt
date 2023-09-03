@@ -35,6 +35,7 @@ import com.an.e_bazarek.feature_login.domain.model.LoginEvent
 fun LoginScreen(
     navController: NavController,
     viewModel: LoginViewModel,
+    signIn: () -> Unit
 ) {
 
     val state by viewModel.screenState.collectAsState()
@@ -58,17 +59,7 @@ fun LoginScreen(
         }
     }
 
-    LaunchedEffect(key1 = state.isLoggedIn) {
-        state.error?.let { error ->
-            Toast.makeText(
-                context,
-                error,
-                Toast.LENGTH_LONG
-            ).show()
-            viewModel.onEvent(LoginEvent.DisplayError)
-
-        }
-    }
+    LaunchedEffect(key1 = state.isLoggedIn) { signIn() }
 
     if(state.isLoading) {
         Box(modifier = Modifier.fillMaxSize()) {

@@ -72,6 +72,11 @@ dependencies {
     // Compose Navigation
     implementation("androidx.navigation:navigation-compose:2.6.0")
 
+    // Firestore
+    implementation("com.google.firebase:firebase-firestore-ktx:23.0.3")
+
+
+    implementation(project(":shared_resources"))
 
 }
 

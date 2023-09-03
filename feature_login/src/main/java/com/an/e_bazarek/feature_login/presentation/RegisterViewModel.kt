@@ -46,7 +46,11 @@ class RegisterViewModel @Inject constructor(
                     _screenState.value = registerState
                 }
             }
-            is RegisterEvent.DisplayError -> TODO()
+            is RegisterEvent.DisplayError -> {
+                _screenState.value = screenState.value.copy(
+                    error = null
+                )
+            }
         }
     }
 
