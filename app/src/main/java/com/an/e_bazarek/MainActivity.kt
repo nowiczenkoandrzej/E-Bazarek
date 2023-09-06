@@ -4,11 +4,7 @@ package com.an.e_bazarek
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -18,7 +14,9 @@ import com.an.e_bazarek.feature_login.presentation.LoginScreen
 import com.an.e_bazarek.feature_login.presentation.LoginViewModel
 import com.an.e_bazarek.feature_login.presentation.RegisterScreen
 import com.an.e_bazarek.feature_login.presentation.RegisterViewModel
-import com.an.e_bazarek.model.Screen
+import com.an.e_bazarek.feature_profile.presentation.ProfileScreen
+import com.an.e_bazarek.feature_profile.presentation.ProfileViewModel
+import com.an.e_bazarek.shared_resources.domain.model.Screen
 import com.an.e_bazarek.ui.theme.E_BazarekTheme
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,11 +38,6 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-                var selectedItemIndex by rememberSaveable {
-                    mutableStateOf(0)
-                }
-
-
 
                 NavHost(
                     navController = navController,
@@ -61,7 +54,13 @@ class MainActivity : ComponentActivity() {
                             LoginScreen(
                                 navController = navController,
                                 viewModel = viewModel,
-                                signIn =  { navController.navigate(Screen.BazarekFeature.route) }
+                                signIn =  {
+                                    navController.navigate(Screen.BazarekFeature.route) {
+                                        popUpTo(Screen.AuthFeature.route) {
+                                            inclusive = true
+                                        }
+                                    }
+                                }
                             )
                         }
                         composable(Screen.Register.route) {
@@ -69,7 +68,13 @@ class MainActivity : ComponentActivity() {
                             RegisterScreen(
                                 navController = navController,
                                 viewModel = viewModel,
-                                signIn =  { navController.navigate(Screen.BazarekFeature.route) }
+                                signIn =  {
+                                    navController.navigate(Screen.BazarekFeature.route) {
+                                        popUpTo(Screen.AuthFeature.route) {
+                                            inclusive = true
+                                        }
+                                    }
+                                }
                             )
                         }
                     }
@@ -78,7 +83,11 @@ class MainActivity : ComponentActivity() {
                         route = Screen.BazarekFeature.route
                     ) {
                         composable(Screen.Profile.route) {
-
+                            val viewModel = hiltViewModel<ProfileViewModel>()
+                            ProfileScreen(
+                                viewModel = viewModel,
+                                navController = navController
+                            )
                         }
                     }
 

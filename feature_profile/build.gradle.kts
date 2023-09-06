@@ -75,6 +75,11 @@ dependencies {
     // Firestore
     implementation("com.google.firebase:firebase-firestore-ktx:23.0.3")
 
+    // Coil Compose
+    implementation("io.coil-kt:coil-compose:2.2.2")
+
+
+
     implementation(project(":shared_resources"))
 
 }

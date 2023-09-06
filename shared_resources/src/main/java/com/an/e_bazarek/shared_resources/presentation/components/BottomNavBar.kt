@@ -13,14 +13,14 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.List
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
-import com.an.e_bazarek.model.BottomNavigationItem
-import com.an.e_bazarek.model.Screen
+import com.an.e_bazarek.shared_resources.domain.model.BottomNavigationItem
+import com.an.e_bazarek.shared_resources.domain.model.Screen
+
 
 @Composable
 fun BottomNavBar(
     selectedItem: Int,
-    navController: NavController,
-    onSelectItem: (Int, String) -> Unit
+    onSelectItem: (String) -> Unit
 ) {
     val bottomNavItems = listOf(
         BottomNavigationItem(
@@ -50,7 +50,7 @@ fun BottomNavBar(
         bottomNavItems.forEachIndexed { index, item ->
             BottomNavigationItem(
                 selected = selectedItem == index,
-                onClick = { onSelectItem(index, item.route) },
+                onClick = { onSelectItem(item.route) },
                 label = { Text(text = item.title) },
                 icon = {
                     if(selectedItem == index)

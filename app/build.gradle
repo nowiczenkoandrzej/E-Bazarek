@@ -89,6 +89,7 @@ dependencies {
 
     implementation project(":feature_login")
     implementation project(":feature_profile")
+    implementation project(":shared_resources")
 }
 
 kapt {
