@@ -4,6 +4,7 @@ package com.an.e_bazarek
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material.Text
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
@@ -84,10 +85,11 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable(Screen.Profile.route) {
                             val viewModel = hiltViewModel<ProfileViewModel>()
-                            ProfileScreen(
+                            Text(text = "logged in")
+                            /*ProfileScreen(
                                 viewModel = viewModel,
                                 navController = navController
-                            )
+                            )*/
                         }
                     }
 
