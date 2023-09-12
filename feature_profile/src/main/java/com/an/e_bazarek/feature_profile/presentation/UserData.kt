@@ -21,7 +21,7 @@ fun UserData(
     user: User,
     amountOfListings: Int,
 ) {
-    Box(
+    Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
@@ -32,8 +32,7 @@ fun UserData(
                 contentDescription = null,
                 modifier = Modifier
                     .size(150.dp)
-                    .clip(CircleShape)
-                    .align(Alignment.CenterStart),
+                    .clip(CircleShape),
                 contentScale = ContentScale.Crop
             )
         } else {
@@ -42,11 +41,10 @@ fun UserData(
                 contentDescription = null,
                 modifier = Modifier
                     .size(150.dp)
-                    .clip(CircleShape)
-                    .align(Alignment.CenterStart),
+                    .clip(CircleShape),
             )
         }
-        Column(modifier = Modifier.align(Alignment.CenterEnd)) {
+        Column() {
             Text(text = user.username)
             Text(text = user.email)
             Text(text = "Amount of listings: $amountOfListings")
@@ -58,7 +56,6 @@ fun UserData(
 @Preview
 @Composable
 fun MyComposablePreview() {
-    // Wywołaj komponent, który chcesz podglądać
     UserData(
         user = User(
             "123",

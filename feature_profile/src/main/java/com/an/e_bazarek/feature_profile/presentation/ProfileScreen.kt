@@ -19,30 +19,16 @@ fun ProfileScreen(
     viewModel: ProfileViewModel,
     navController: NavController
 ) {
-
     val state by viewModel.screenState.collectAsState()
 
-    val selectedItem = 1
-
-    Scaffold(
-        bottomBar = {
-            BottomNavBar(
-                selectedItem = selectedItem,
-                onSelectItem = { route ->
-                    navController.navigate(route)
-                }
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        if(state.user != null) {
+            UserData(
+                user = state.user!!,
+                amountOfListings = state.userListings.size
             )
-        }
-    )  {
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            if(state.user != null) {
-                UserData(
-                    user = state.user!!,
-                    amountOfListings = state.userListings.size
-                )
-            }
         }
     }
 }
